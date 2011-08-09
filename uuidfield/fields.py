@@ -48,7 +48,10 @@ class UUIDField(Field):
         return getattr(uuid, 'uuid%s' % (self.version,))(*args)
 
     def db_type(self, connection=None):
-        return 'char(%s)' % (self.max_length,)
+        if connection.settings_dict['ENGINE'] == 'django.db.backends.postgresql_psycopg2':
+            return 'UUID'
+        else:
+            return 'char(%s)' % (self.max_length,)
 
     def pre_save(self, model_instance, add):
         """ see CharField.pre_save
