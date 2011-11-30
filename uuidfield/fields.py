@@ -1,4 +1,3 @@
-
 from django.db.models import Field
 
 import uuid
@@ -48,7 +47,8 @@ class UUIDField(Field):
         return getattr(uuid, 'uuid%s' % (self.version,))(*args)
 
     def db_type(self, connection=None):
-        if connection.settings_dict['ENGINE'] == 'django.db.backends.postgresql_psycopg2':
+        _postgres_types = ['django.contrib.gis.db.backends.postgis','django.db.backends.postgresql_psycopg2']
+        if connection.settings_dict['ENGINE'] in _postgres_types:
             return 'UUID'
         else:
             return 'char(%s)' % (self.max_length,)
