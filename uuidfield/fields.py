@@ -19,6 +19,7 @@ class UUIDField(Field):
     # TODO: support UUID types in Postgres
     # TODO: support binary storage types
     # __metaclass__ = models.SubfieldBase
+    empty_strings_allowed = False
 
     def __init__(self, version=4, node=None, clock_seq=None, namespace=None, name=None, auto=False, *args, **kwargs):
         assert version in (1, 3, 4, 5), "UUID version %s is not supported." % (version,)
